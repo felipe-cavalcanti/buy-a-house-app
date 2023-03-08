@@ -16,28 +16,16 @@ describe('Scenarios to validate small, too big and just right inputs', () => {
         currency: "USD",
     });
 
-    it('Validating money input is able to receive small input', () => {
-        cy.accessInputAndType(selectors.moneyInputSelector, smallValueInput)
-            .then(($moneyInput) => {
-                expect($moneyInput).to.have.attr('class', selectors.moneyInputFocusSelector);
-                expect($moneyInput).to.have.attr('value', formattedValueToBeDisplayed.format(smallValueInput / 100).split('$')[1]);
-            })
-    });
+    const inputTerms = [smallValueInput,justRightValueInput,tooBigValueInput]
 
-    it('Validating money input is able to receive just right input', () => {
-        cy.accessInputAndType(selectors.moneyInputSelector, justRightValueInput)
-            .then(($moneyInput) => {
-                expect($moneyInput).to.have.attr('class', selectors.moneyInputFocusSelector);
-                expect($moneyInput).to.have.attr('value', formattedValueToBeDisplayed.format(justRightValueInput / 100).split('$')[1]);
-            })
-    });
-
-    it('Validating money input is able to receive a too big input', () => {
-        cy.accessInputAndType(selectors.moneyInputSelector, tooBigValueInput)
-            .then(($moneyInput) => {
-                expect($moneyInput).to.have.attr('class', selectors.moneyInputFocusSelector);
-                expect($moneyInput).to.have.attr('value', formattedValueToBeDisplayed.format(tooBigValueInput / 100).split('$')[1]);
-            })
+    inputTerms.forEach(term => {
+        it(`Validating money input is able to receive number ${term}`, () => {
+            cy.accessInputAndType(selectors.moneyInputSelector, term)
+                .then(($moneyInput) => {
+                    expect($moneyInput).to.have.attr('class', selectors.moneyInputFocusSelector);
+                    expect($moneyInput).to.have.attr('value', formattedValueToBeDisplayed.format(term / 100).split('$')[1]);
+                })
+        });
     });
 
     it('Validating money input is not able to receive a random text', () => {

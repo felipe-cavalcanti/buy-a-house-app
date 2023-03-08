@@ -3,14 +3,19 @@ import { currentMonth, nextMonth } from '../../../fixtures/date-input-testing-da
 describe('Scenarios to validate date input component', () => {
     beforeEach(() => {
         cy.visit('http://qa-assignment.useorigin.com.s3-website-us-east-1.amazonaws.com/');
+        cy.get(selectors.dateInputMonthSelector)
+            .as('dateMonth')
+            .should('be.visible')
+            .and('have.text', currentMonth);
+        cy.get(selectors.dateInputDecrementSelector)
+            .as('dateDecrementArrow')
+            .should('not.be.enabled')
+            .and('have.class',selectors.disabledAttribute);
     })
 
     it('Validating Date input component increment and decrement work as expected by mouse click', () => {
-        cy.get(selectors.dateInputMonthSelector)
-            .should('have.text', currentMonth);
-        cy.get(selectors.dateInputDecrementSelector)
-            .should('not.be.enabled')
-            .and('have.class',selectors.disabledAttribute);
+        cy.get('@dateMonth');
+        cy.get('@dateDecrementArrow');
         cy.get(selectors.dateInputIncrementSelector)
             .should('not.have.attr', 'class', selectors.disabledAttribute)
             .click();
@@ -26,15 +31,12 @@ describe('Scenarios to validate date input component', () => {
     });
 
     it('Validating Date input component increment and decrement work as expected by keyboard', () => {
-        cy.get(selectors.dateInputMonthSelector)
-            .should('have.text', currentMonth);
-        cy.get(selectors.dateInputDecrementSelector)
-            .should('not.be.enabled')
-            .and('have.class',selectors.disabledAttribute);
+        cy.get('@dateMonth');
+        cy.get('@dateDecrementArrow');
         cy.get(selectors.dateInputSelector)
             .should('not.have.attr', 'class', selectors.disabledAttribute)
             .click()
-            .type('{rightarrow}')
+            .type('{rightarrow}');
         cy.get(selectors.dateInputMonthSelector)
             .should('not.have.text', currentMonth)
             .and('have.text', 'April');

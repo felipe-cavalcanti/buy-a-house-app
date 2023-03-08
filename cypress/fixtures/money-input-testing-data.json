@@ -1,0 +1,6 @@
+{
+  "smallValueInput":"100",
+  "justRightValueInput": "10000",
+  "tooBigValueInput": "10000000000000000000000000000000",
+  "notAllowedTextValueInput": "This is a test!"
+}
